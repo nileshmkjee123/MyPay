@@ -12,19 +12,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
     UserRepository userRepository;
     KafkaTemplate<String,String> kafkaTemplate;
     ObjectMapper objectMapper;
     UserCacheRepository userCacheRepository;
     public void create(UserCreateRequest userCreateRequest) throws JsonProcessingException {
         User user = userCreateRequest.to();
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
 
         //communicate to wallet service to create a user's wallet
@@ -41,5 +46,10 @@ public class UserService {
        this.userCacheRepository.save(user);
    }
    return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findByMobile(username);
     }
 }

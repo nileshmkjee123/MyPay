@@ -18,8 +18,16 @@ public class UserController {
     public void createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) throws JsonProcessingException {
     this.userService.create(userCreateRequest);
     }
-    @GetMapping("")
+    //Human user
+    @GetMapping("/details")
             public User getUserDetails(@RequestParam("userId") int userId){
         return this.userService.get(userId);
+    }
+    //this endpoint for internal microservice calling
+    //Internal microservice call
+    @GetMapping("/mobile/{mobileId}")
+    public User getUserDetails(@PathVariable("mobileId") String mobile){
+
+        return (User) this.userService.loadUserByUsername(mobile);
     }
 }

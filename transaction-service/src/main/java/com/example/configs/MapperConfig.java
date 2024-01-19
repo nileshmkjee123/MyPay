@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MapperConfig {
-@Bean
+    @Bean
+    public ObjectMapper objectMapper(){
+        return new ObjectMapper();
+    }
+    @Bean
     public JSONParser getParser()
     {
         return new JSONParser();
-    }
-    @Bean
-    public ObjectMapper getMapper(){
-        return new ObjectMapper();
     }
 }

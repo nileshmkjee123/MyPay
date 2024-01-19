@@ -19,7 +19,8 @@ public class Wallet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int walletId;
     private Double balance;
-    private String userId;
+    @Column(nullable = false,unique = true)
+    private String mobile;
     @CreationTimestamp
     private Date createdOn;
     @UpdateTimestamp

@@ -1,6 +1,7 @@
 package com.example.dto;
 
 import com.example.models.User;
+import com.example.utils.Constants;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -15,12 +16,15 @@ public class UserCreateRequest {
     private String mobile;
     @NotBlank
     private String email;
+    @NotBlank
+    private String password;
 public User to()
 {
     return User.builder()
             .name(this.name)
             .mobile(this.mobile)
-            .email(this.email)
+            .email(this.email).password(this.password)
+            .authorities(Constants.USER_AUTHORITY)
             .build();
 }
 }

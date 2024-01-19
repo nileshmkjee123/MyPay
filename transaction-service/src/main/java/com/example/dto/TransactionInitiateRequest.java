@@ -4,6 +4,7 @@ package com.example.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 public class TransactionInitiateRequest {
     @NotBlank
     private String receiver;
-    @NotBlank
+    @NotNull
     private Double amount;
     private String purpose;
 }
